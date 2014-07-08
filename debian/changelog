@@ -1,0 +1,5 @@
+vizzini (1.0.0-1) unstable; urgency=low
+
+  * Initial release based on leds-alix
+
+ -- Ard van Breemen <ard@kwaak.net>  Tue, 08 Jul 2014 10:23:00 +0000
