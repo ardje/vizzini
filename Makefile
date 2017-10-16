@@ -1,4 +1,4 @@
-obj-m := vizzini.o
+obj-m := xr_usb_serial_common.o
 
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 PWD       := $(shell pwd)

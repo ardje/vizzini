@@ -1,51 +1,49 @@
-Vizzini USB Serial
-==================
+Exar USB Serial Driver
+======================
+Version 1A, 1/9/2015
 
-Version 1.0, 06/11/2013
+This driver will work with any USB UART function in these Exar devices:
+	XR21V1410/1412/1414
+	XR21B1411
+	XR21B1420/1422/1424
+	XR22801/802/804
 
-The source code is compatible with these kernel versions (and probably others):
-    3.5.0 and newer.
+The source code has been tested on Linux kernels 2.6.18 to 3.4.x.  This may also work with other kernels.  
 
 
 Installation
 ------------
 
-* Make sure the Vizzini device is unplugged from the Linux host.
+* Compile and install the common usb serial driver module
 
-* Make sure that the cdc-acm driver and any previously loaded vizzini
-  driver modules are not loaded.
+	# make
+	# insmod ./xr_usb_serial_common.ko
 
-	# rmmod cdc_acm
-	# rmmod vizzini
-	# modprobe -r usbserial
 
-* Install the vizzini driver module.
-
-	# modprobe usbserial
-	# insmod ./vizzini.ko
-
-* Plug Vizzini into the host.  You should see four devices created,
+* Plug the device into the USB host.  You should see up to four devices created,
   typically /dev/ttyUSB[0-3].
 
 
-Operation
----------
+Tips for Debugging
+------------------
 
-The vizzini driver presents a standard Linux TTY interface that can be
-configured and manipulated with the usual APIs (tcgetattr(),
-tcsetattr(), ioctl(), read(), write(), etc).
+* Check that the USB UART is detected by the system
 
-The normal supported character modes are 7N1, 7N2, 7P1, 7P2, 8N1, 8N2,
-8P1, 8P2, with odd, even, mark and space parity.
+	# lsusb
 
-Vizzini also supports 9N1 and 9N2.  It is enabled by using the CS5
-character size.  In this mode a 9-bit character can be written to the
-device with two bytes.  Bits 0..7 of the character are taken from the
-first byte, and bit-8 of the character is taken from bit-0 of the
-second byte.
+* Check that the CDC-ACM driver was not installed for the Exar USB UART
 
-Similarly, a 9-bit character can be read from the device as a pair of
-bytes.  Bits 0..7 of the character are in the first byte, and bit-8 of
-the character is taken from bit-0 of the second byte.  Bits 1..7 of
-the second byte are undefined.
+	# ls /dev/tty*
+
+	To remove the CDC-ACM driver and install the driver:
+
+	# rmmod cdc-acm
+	# modprobe -r usbserial
+	# modprobe usbserial
+	# insmod ./xr_usb_serial_common.ko
+
+
+Technical Support
+-----------------
+Send any technical questions/issues to uarttechsupport@exar.com. 
 
